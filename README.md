@@ -59,44 +59,49 @@
     option 1. Connect the board and power on then copy `build/zephyr/zephyr.bin` to the `JLINK` mass storage device.
     option 2. Connect the board and power on then:
 
-        ```bash
-        $ west flash
-        ```
+    ```bash
+    $ west flash
+    ```
 
 ## Updating your ML model
 
 1. [Train a model in Edge Impulse](https://docs.edgeimpulse.com).
-2. On the **Deployment** page in the Studio, export as a C++ library.
-3. Remove the content of `ei-model` directory in this repository.
-4. Extract the downloaded zip with the C++ library into `ei-model` directory.
-5. Rebuild the application.
+1. On the **Deployment** page in the Studio, export as a C++ library.
+1. Remove the content of `ei-model` directory in this repository.
+1. Extract the downloaded zip with the C++ library into `ei-model` directory.
+1. Rebuild the application.
 
 ## Using Remote Ingestion
 This firmware is equipped with the Remote Ingestion functionality. It allows you to connect your device to the internet using the LTE connection and start ingesting data remotely from the Edge Impulse Studio!
 
 To build the firmware with the Remote Ingestion, follow the steps above but insted of command:
 
-```
-west build -b nrf9160dk_nrf9160_ns@1.0.0
+```bash
+$ west build -b nrf9161dk/nrf9161/ns
+# or
+$ west build -b nrf9151dk/nrf9151/ns
 ```
 
 Run:
 
-```
-west build -b nrf9160dk_nrf9160_ns@1.0.0 -- -DEXTRA_CONF_FILE=overlay-remote-ingestion.conf
+```bash
+$ west build -b nrf9161dk/nrf9161/ns -- -DEXTRA_CONF_FILE=overlay-remote-ingestion.conf
+# or
+$ west build -b nrf9151dk/nrf9151/ns -- -DEXTRA_CONF_FILE=overlay-remote-ingestion.conf
 ```
 
 And then:
 1. Flash the board and connect for the first time to studio.
-2. Power off the board and insert the SIM card.
-    > **Note:** Make sure your SIM card is active. You can use the iBasis SIM card shipped with the nRF9160DK or any other SIM card that supports LTE-M and/or NB-IoT.
-3. Power on the board and wait for the connection to be established (nRF9160DK will blink LEDs).
-4. Go to your project in Studio and click on **Devices** tab, you should see your device with green mark.
+1. Power off the board and insert the SIM card.
+    > **Note:** Make sure your SIM card is active. You can use the iBasis SIM card shipped with the nRF9161/51DK or any other SIM card that supports LTE-M and/or NB-IoT.
+1. Be sure that SIM card is enabled in board configuration software (picture above)
+1. Power on the board and wait for the connection to be established (nRF9160DK will blink LEDs).
+1. Go to your project in Studio and click on **Devices** tab, you should see your device with green mark.
 
 ## Troubleshooting
 
 1. In case of any issues, the nRF9160DK with Edge Impulse firmware is exposing a serial console on the first UART port (connection parameters 115200bps 8N1). Open the serial port and reset the device to see the boot messages.
-2. If you are using the Remote Ingestion functionality and have problems with connection, in the `overlay-remote-ingestion.conf` file change:
+1. If you are using the Remote Ingestion functionality and have problems with connection, in the `overlay-remote-ingestion.conf` file change:
 
     ```
     CONFIG_REMOTE_INGESTION_LOG_LEVEL_WRN=y
