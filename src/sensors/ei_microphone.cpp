@@ -439,7 +439,7 @@ static void inference_sampling_work_handler(struct k_work *work)
     k_mutex_lock(&inference_mutex, K_FOREVER);
     memcpy(&inference.buffers[inference.buf_select][inference.buf_count], buffer, size);
 
-    k_mem_slab_free(&rx_mem_slab, &buffer);
+    k_mem_slab_free(&rx_mem_slab, buffer);
 
     inference.buf_count += (size / sizeof(microphone_sample_t));
 
