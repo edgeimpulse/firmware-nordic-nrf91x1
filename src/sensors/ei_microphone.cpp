@@ -325,9 +325,9 @@ bool ei_microphone_inference_start(uint32_t n_samples, float interval_ms)
     }
 
     inference.buffers[1] = (microphone_sample_t*)ei_malloc(n_samples * sizeof(microphone_sample_t));
-    if(inference.buffers[0] == nullptr) {
+    if(inference.buffers[1] == nullptr) {
         LOG_ERR("Can't allocate audio buffer[1]");
-        ei_free(inference.buffers[0]);
+        ei_free(inference.buffers[1]);
         return false;
     }
 
@@ -360,7 +360,7 @@ bool ei_microphone_inference_start(uint32_t n_samples, float interval_ms)
 	};
 
 	cfg.channel.req_num_chan = 1;
-	cfg.channel.req_chan_map_lo = dmic_build_channel_map(0, 0, PDM_CHAN_LEFT);
+	cfg.channel.req_chan_map_lo = dmic_build_channel_map(0, 0, PDM_CHAN_RIGHT);
 	cfg.streams[0].pcm_rate = AUDIO_FREQ;
 	cfg.streams[0].block_size = BLOCK_SIZE(cfg.streams[0].pcm_rate, cfg.channel.req_num_chan);
 

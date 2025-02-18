@@ -43,6 +43,7 @@
 #define EI_CLASSIFIER_ONNX_TIDL                  11
 #define EI_CLASSIFIER_MEMRYX                     12
 #define EI_CLASSIFIER_ETHOS_LINUX                13
+#define EI_CLASSIFIER_ATON                       14
 
 #define EI_CLASSIFIER_SENSOR_UNKNOWN             -1
 #define EI_CLASSIFIER_SENSOR_MICROPHONE          1
@@ -68,6 +69,7 @@
 #define EI_CLASSIFIER_LAST_LAYER_TAO_YOLOV3            9
 #define EI_CLASSIFIER_LAST_LAYER_TAO_YOLOV4            10
 #define EI_CLASSIFIER_LAST_LAYER_YOLOV2                11
+#define EI_CLASSIFIER_LAST_LAYER_YOLO_PRO              12
 
 #define EI_CLASSIFIER_IMAGE_SCALING_NONE          0
 #define EI_CLASSIFIER_IMAGE_SCALING_0_255         1
@@ -84,6 +86,10 @@
 #define EI_CLASSIFIER_CLASSIFICATION_MODE_VISUAL_ANOMALY      5
 #define EI_CLASSIFIER_CLASSIFICATION_MODE_ANOMALY_KMEANS      6
 #define EI_CLASSIFIER_CLASSIFICATION_MODE_DSP                 7
+
+#ifndef EI_CLASSIFIER_DSP_AXES_INDEX_TYPE
+#define EI_CLASSIFIER_DSP_AXES_INDEX_TYPE       uint8_t
+#endif // EI_CLASSIFIER_DSP_AXES_INDEX_TYPE
 
 struct ei_impulse;
 class ei_impulse_handle_t;
@@ -122,7 +128,7 @@ typedef struct {
     size_t n_output_features;
     extract_fn_t extract_fn;
     void *config;
-    uint8_t *axes;
+    EI_CLASSIFIER_DSP_AXES_INDEX_TYPE *axes;
     uint32_t axes_size;
     int version;  // future proof, can easily add to this struct now
     DspHandle* (*factory)(void* config, float sampling_freq); // nullptr means no state

@@ -169,7 +169,7 @@ int main(void)
         if(is_inference_running() == true) {
             ei_run_impulse();
         }
-        k_sleep(K_MSEC(1));
+        k_sleep(K_USEC(100));
     }
 
     return 0;

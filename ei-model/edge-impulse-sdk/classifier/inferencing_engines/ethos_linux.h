@@ -335,6 +335,35 @@ EI_IMPULSE_ERROR run_nn_inference(
                 }
                 break;
             }
+            case EI_CLASSIFIER_LAST_LAYER_YOLO_PRO: {
+                if (network->getOfmTypes()[0] == EthosU::TensorType_INT8) {
+                    fill_res = fill_result_struct_quantized_yolo_pro(
+                        impulse,
+                        block_config,
+                        result,
+                        (int8_t*)data,
+                        io_details->output_zeropoint,
+                        io_details->output_scale,
+                        impulse->tflite_output_features_count,
+                        debug);
+                }
+                else if (network->getOfmTypes()[0] == EthosU::TensorType_UINT8) {
+                    fill_res = fill_result_struct_quantized_yolo_pro(
+                        impulse,
+                        block_config,
+                        result,
+                        (uint8_t*)data,
+                        io_details->output_zeropoint,
+                        io_details->output_scale,
+                        impulse->tflite_output_features_count,
+                        debug);
+                }
+                else {
+                    ei_printf("ERR: Invalid output type (%d) for YOLO PRO layer\n", network->getOfmTypes()[0]);
+                    return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
+                }
+                break;
+            }
             default: {
                 ei_printf("ERR: Object Detection layer (%d) not supported\n", block_config->object_detection_last_layer);
                 return EI_IMPULSE_LAST_LAYER_NOT_SUPPORTED;

@@ -19,7 +19,7 @@
 #define _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_HELPER_H_
 
 #include "edge-impulse-sdk/classifier/ei_quantize.h"
-#if (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL) || (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE)
+#if (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL) || (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE) || (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TENSORRT)
 
 #if EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL
 #include <thread>
@@ -536,6 +536,45 @@ EI_IMPULSE_ERROR fill_result_struct_from_output_tensor_tflite(
                 }
                 else {
                     ei_printf("ERR: Invalid output type (%d) for TAO YOLOv4 layer\n", output->type);
+                    return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
+                }
+                break;
+            }
+            case EI_CLASSIFIER_LAST_LAYER_YOLO_PRO: {
+
+                if (output->type == kTfLiteInt8) {
+                    fill_res = fill_result_struct_quantized_yolo_pro(
+                        impulse,
+                        block_config,
+                        result,
+                        output->data.int8,
+                        output->params.zero_point,
+                        output->params.scale,
+                        impulse->tflite_output_features_count,
+                        debug);
+                }
+                else if (output->type == kTfLiteUInt8) {
+                    fill_res = fill_result_struct_quantized_yolo_pro(
+                        impulse,
+                        block_config,
+                        result,
+                        output->data.uint8,
+                        output->params.zero_point,
+                        output->params.scale,
+                        impulse->tflite_output_features_count,
+                        debug);
+                }
+                else if (output->type == kTfLiteFloat32) {
+                    fill_res = fill_result_struct_f32_yolo_pro(
+                        impulse,
+                        block_config,
+                        result,
+                        output->data.f,
+                        impulse->tflite_output_features_count,
+                        debug);
+                }
+                else {
+                    ei_printf("ERR: Invalid output type (%d) for YOLO PRO layer\n", output->type);
                     return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
                 }
                 break;
