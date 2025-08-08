@@ -41,7 +41,7 @@ RUN python3.10 -m pip install pip==21.2.4
 RUN pip install west==1.2.0
 RUN pip install ecdsa==0.17.0
 RUN mkdir /ncs
-RUN cd /ncs && west init -m https://github.com/nrfconnect/sdk-nrf --mr v2.7.0
+RUN cd /ncs && west init -m https://github.com/nrfconnect/sdk-nrf --mr v3.0.0
 RUN cd /ncs && west update
 RUN cd /ncs && west zephyr-export
 RUN pip3 install -r /ncs/zephyr/scripts/requirements.txt

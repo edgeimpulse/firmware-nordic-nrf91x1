@@ -6,9 +6,9 @@
 
 ## Building the device firmware (native)
 
-1. Install the [nRF Connect SDK](https://docs.nordicsemi.com/bundle/ncs-2.7.0/page/nrf/getting_started/installing.html) in a *separate* folder from this repository (e.g. `~/repos/ncs`).
+1. Install the [nRF Connect SDK](https://docs.nordicsemi.com/bundle/ncs-3.0.0/page/nrf/getting_started/installing.html) in a *separate* folder from this repository (e.g. `~/repos/ncs`).
 
-    > **Note:** This firmware relays on **NCS v2.7.0**
+    > **Note:** This firmware relays on **NCS v3.0.0**
 
 1. Clone this repository:
 
